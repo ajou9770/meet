@@ -70,6 +70,7 @@ a {
     text-decoration: none;
 }
 .footer {
+    position: absolute;
     display: flex;
     widows: 100px;
     height:100px;
