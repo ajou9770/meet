@@ -10,8 +10,8 @@ body {
     margin-bottom: 20px;  
 }
 div {
-    background-color:skyblue;
-    opacity: 0.8;
+    background-color:wheat;
+    opacity: 0.9;
     display: flex;
     flex-direction: column;
     text-align:center;
