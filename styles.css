@@ -23,7 +23,7 @@ div {
     justify-content: center;
     align-items:center;
     color:indigo;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .quzi {
     background-color:seagreen;
@@ -77,7 +77,6 @@ a {
     background-color:navy;
     border-color: teal;
     text-align: left;
-    margin-top: 10px;
     margin-bottom: 10px;
     padding-left: 20px;
     margin-right: 20px;
