@@ -37,6 +37,14 @@ div {
     color: snow;
     margin-bottom: 5px;
 }
+.event {
+    display: inline-block;
+    background-color: wheat;
+    height: 120px;
+    width: 650px;
+    justify-content: center;
+    align-items: center;
+}
 .mile {
     background-color:seagreen;
     border-radius: 30px;
