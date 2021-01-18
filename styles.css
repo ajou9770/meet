@@ -24,8 +24,6 @@ div {
     align-items:center;
     color:indigo;
     margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 .quzi {
     background-color:seagreen;
@@ -105,7 +103,6 @@ a {
     text-align: left;
     margin-bottom: 10px;
     padding-left: 20px;
-    margin-left: 10px;
     margin-right: 10px;
     color:whitesmoke;
     font-size:large;
