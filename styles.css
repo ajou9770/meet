@@ -49,10 +49,6 @@ div {
     color: snow;
     margin-bottom: 5px;
 }
-. hr {
-    color:lightslategrey;
-    font-weight: 700;
-}
 .josa {
     background-color:indigo;
     border-radius: 30px;
@@ -141,4 +137,9 @@ a {
     color:indigo;
     opacity: 0.9;
     font-size: 35px;
+}
+.top {
+    color:indigo;
+    opacity: 0.9;
+    font-size: 40px;
 }
