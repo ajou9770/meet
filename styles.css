@@ -10,12 +10,12 @@ body {
     margin-bottom: 20px;  
 }
 div {
-    background-color:moccasin;
+    background-color:wheat;
     opacity: 0.9;
     display: flex;
     flex-direction: column;
     text-align:center;
-    font-size:35px;
+    font-size:30px;
     font-weight: 600;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-color: black;            
@@ -24,17 +24,6 @@ div {
     align-items:center;
     color:indigo;
     margin-top: 10px;
-}
-.title {
-    background-color: blueviolet;
-    border-radius: 10px;
-    opacity: 0.8;
-    height: 100px;
-    width: 650px;
-    font-size:40px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
-    color:whitesmoke;
 }
 .quzi {
     background-color:seagreen;
@@ -145,7 +134,7 @@ a {
     margin-bottom: 15px;
 }
 .shop {
-    color:indigo;
+    color: tomato;
     opacity: 0.9;
     font-size: 35px;
 }
