@@ -139,7 +139,10 @@ a {
     font-size: 35px;
 }
 .top {
-    color:indigo;
+    background-color: blueviolet;
+    color:whitesmoke;
+    padding-left: 10px;
+    padding-right: 10px;
     opacity: 0.9;
     font-size: 40px;
     font-weight: 800;
