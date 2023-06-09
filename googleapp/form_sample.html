@@ -16,11 +16,85 @@
             font-weight: 600;
             color: whitesmoke;
         }
+        #icon {
+  border: none;
+  width: 150px;
+  height: 50px;
+  font-size: 25px;
+  border-radius: 10px;
+  background: none;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
+#icon_call {
+  border: none;
+  width: 140px;
+  height: 55px;
+  padding-top: 12px;
+  font-size: 20px;
+  color: black;
+  border-radius: 35px;
+  box-shadow: 1px 3px 3px 1px slategray;
+  background: rgb(205, 235, 223);
+  text-align: center;
+  font-weight: bold;
+}
+#icon_call a {
+  color: black;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.space_around {
+          display: flex;
+          justify-content: space-around;
+        }
     </style>
 </head>
 <body>
     <iframe src="https://script.google.com/macros/s/AKfycby4BtJ1XlDgfw7j_dX-Fvtd5Up93uVormNykvr-EQCvyz8ppenpA0o2OZSuROwrWy9Vgw/exec" width="100%" height="850"></iframe>
-    <br>
-    <button class="btn btn-info btn-sm" onclick="alert('신협으로 전화연결 합니다')"><a href="tel:0312196052">📞전화문의</a></button>
+        
+  
+  <div class="space_around">
+  <div onclick="callon()" id="icon_call">
+    📞상담(문의)
+    </div>
+
+<div id="icon">
+        <div
+id="kakao-talk-channel-chat-button"
+data-channel-public-id="_dfhkK"
+data-title="consult"
+data-size="small"
+data-color="yellow"
+data-shape="mobile"
+data-support-multiple-densities="true"
+></div></div>
+</div>
+<script>  
+    function callon() {
+      if (window.confirm("☏ 상담가능시간: 평일 8:30~17:00 📞전화앱으로 연결할까요?")) {
+        document.location.href = "tel:031-219-6052"
+    } else {
+      alert("취소 되었습니다!!")
+    }
+   }                
+  </script>
+
+<script>
+      window.kakaoAsyncInit = function() {
+        Kakao.Channel.createChatButton({
+          container: '#kakao-talk-channel-chat-button',
+        });    
+      };
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'kakao-js-sdk');
+    </script>
 </body>
 </html>
