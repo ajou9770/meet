@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <title>신협 출자금 급여공제 (변경) 신청서</title>
+    <style>
+        button {
+            margin-left: 20px;
+        }
+        a {
+            text-decoration: none;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            color: whitesmoke;
+        }
+        #icon {
+  border: none;
+  width: 150px;
+  height: 50px;
+  font-size: 25px;
+  border-radius: 10px;
+  background: none;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
+#icon_call {
+  border: none;
+  width: 140px;
+  height: 55px;
+  padding-top: 12px;
+  font-size: 20px;
+  color: black;
+  border-radius: 35px;
+  box-shadow: 1px 3px 3px 1px slategray;
+  background: rgb(205, 235, 223);
+  text-align: center;
+  font-weight: bold;
+}
+#icon_call a {
+  color: black;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.space_around {
+          display: flex;
+          justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="https://script.google.com/macros/s/AKfycbw6GxZ6TAwhFJ20U8NJC8Ep6JItSGYzVuDuAZMJdBvDQMqIWdkhYv7jkkn1zMaEzAck/exec" width="100%" height="1000"></iframe>
+        
+    <!-- <br>
+    <small><a href="https://docs.google.com/spreadsheets/d/1qtBFONKiiWuYyK8v6RFi7tEd6lzZf1JfFw3w-_qKVBo/edit#gid=0" style="color:darkcyan" onclick="alert('⛔실제적용시는 이 링크는 보여줄 수 없습니다.')"> 📈입력자료 접수 sheet 보기 →</a></small> -->
+    <br><br>
+  <div class="space_around">
+  <div onclick="callon()" id="icon_call">
+    📞상담(문의)
+    </div>
+    <div id="icon" style="color:rgb(233, 233, 197)">
+    <div
+id="kakao-talk-channel-chat-button"
+data-channel-public-id="_dfhkK"
+data-title="consult"
+data-size="small"
+data-color="yellow"
+data-shape="mobile"
+data-support-multiple-densities="true"
+></div></div>
+</div>
+<script>  
+    function callon() {
+      if (window.confirm("☏ 상담가능시간: 평일 8:30~17:00 📞전화앱으로 연결할까요?")) {
+        document.location.href = "tel:031-219-6052"
+    } else {
+      alert("취소 되었습니다!!")
+    }
+   }                
+  </script>
+
+<script>
+      window.kakaoAsyncInit = function() {
+        Kakao.Channel.createChatButton({
+          container: '#kakao-talk-channel-chat-button',
+        });    
+      };
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'kakao-js-sdk');
+    </script>
+</body>
+</html>
