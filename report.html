@@ -21,6 +21,23 @@
         .container {
             text-align: center;
         }
+        .nav-arrow {
+    position: absolute;
+    top: 50%; /* 화살표를 수직 중앙에 배치 */
+    transform: translateY(-50%);
+    font-size: 50px; /* 화살표 크기 조정 */
+    font-weight: 700; /* 화살표 굵기 */
+    color: grey; /* 화살표 색상 */
+    text-decoration: none; /* 기본 링크 스타일 제거 */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* 그림자 추가 */
+}
+.left-arrow {
+    left: 20px; /* 좌측 화살표 위치 */
+}
+
+.right-arrow {
+    right: 20px; /* 우측 화살표 위치 */
+}
     </style>
 </head>
 <body>
@@ -52,26 +69,35 @@
         <!--     <h4></h4>
             <p></p> -->
             <img src="img/meet_profile_2024.jpg" alt="bs">
+            <a href="#menu1" class="nav-arrow right-arrow">&gt;</a>
         </div>
         <div id="menu1" class="content">
             <h4>제2호의 안 2023결산(안)승인의 건</h4>
             <p></p>
             <img src="img/bs_2023.jpg" alt="bs">
+            <a href="#menu" class="nav-arrow left-arrow">&lt;</a>
+            <a href="#menu2" class="nav-arrow right-arrow">&gt;</a>
         </div>
         <div id="menu2" class="content">
             <h4>제2호의 안 2023결산(안)승인의 건 </h4>
             <p></p>
             <img src="img/pl_2023.jpg" alt="이미지2">
+            <a href="#menu1" class="nav-arrow left-arrow">&lt;</a>
+            <a href="#menu3" class="nav-arrow right-arrow">&gt;</a>
         </div>
         <div id="menu3" class="content">
             <h4>제3호의 안 2023 잉여금 처분(안)</h4>
             <p></p>
             <img src="img/share_2023.jpg" alt="이미지3">
+            <a href="#menu2" class="nav-arrow left-arrow">&lt;</a>
+            <a href="#menu4" class="nav-arrow right-arrow">&gt;</a>
         </div>
         <div id="menu4" class="content">
             <h4>제4호의 안 2024 사업계획 및 예산(안)</h4>
             <p></p>
             <img src="img/2024plan.jpg" alt="이미지4">
+            <a href="#menu3" class="nav-arrow left-arrow">&lt;</a>
+            <a href="#menu5" class="nav-arrow right-arrow">&gt;</a>
         </div>
         <div id="menu5" class="content">
             <h4>⭐2023년 출자(이용고)배당금 지급 안내</h4>
@@ -82,6 +108,7 @@
                <br><br>
                ⭐ 가족조합원 배당금은 세대주 교직원 계좌로 입금됩니다. 
             </h5>
+            <a href="#menu4" class="nav-arrow left-arrow">&lt;</a>
             <!-- <img src="img/2024plan.jpg" alt="이미지4"> -->
         </div>
     </div>
@@ -89,7 +116,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('.nav-link').click(function(e) {
                 e.preventDefault();
@@ -99,6 +126,31 @@
                 $($(this).attr('href')).addClass('active-content');
             });
         });
-    </script>
+    </script> -->
+    <script>
+    $(document).ready(function() {
+    // 탭 링크 클릭 이벤트 처리
+    $('.nav-link').click(function() {
+        switchTab(this);
+    });
+
+    // 화살표 링크 클릭 이벤트 처리
+    $('.nav-arrow').click(function(e) {
+        e.preventDefault();
+        var targetTab = $(this).attr('href');
+        switchTab($('.nav-link[href="' + targetTab + '"]'));
+    });
+
+    function switchTab(element) {
+        // 'active' 클래스 업데이트
+        $('.nav-link').removeClass('active');
+        $(element).addClass('active');
+
+        // 컨텐츠 보이기/숨기기
+        $('.content').removeClass('active-content');
+        $($(element).attr('href')).addClass('active-content');
+    }
+});
+</script>
 </body>
 </html>
