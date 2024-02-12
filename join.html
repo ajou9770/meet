@@ -16,6 +16,12 @@
             margin: 5px;
             padding: 10px;
         }
+        body {
+          -webkit-user-select: none; /* Safari */
+          -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+        }        
         .center {
             text-align: center;
         }
@@ -263,6 +269,12 @@ window.addEventListener('load', function() {
             } 
           });
         });
+
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault(); // 컨텍스트 메뉴를 차단합니다.
+          alert('마우스 오른쪽 버튼 사용이 차단되었습니다.');
+        });
+        
       </script>
 </body>
 </html>
