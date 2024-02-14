@@ -137,25 +137,7 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-#calendar {
-  position: fixed;
-  bottom: 150px;
-  right: 20px;
-  z-index: 1;
-  display: none;
-}
-#hideCalendar {
-  position: fixed;
-  bottom: 100px;
-  right: 10px;
-  display: none;
-}
-#showCalendar {
-  position: fixed;
-  bottom: 150px;
-  right: 10px;
-}
-  #welcomeModal .modal-dialog {
+#welcomeModal .modal-dialog {
         max-width: 80%;
         height: 60vh;
         margin: auto;
@@ -187,77 +169,5 @@ window.addEventListener('load', function() {
   loadingOverlay.style.display = 'none';
 });
   </script>
-<script>
-  function seeCal() {
-    document.getElementById("cal").style.display="block";
-    document.getElementById("hideCal").style.display="block";
-    document.getElementById("seecal").style.display="none";
-  }
-  function hideCal() {
-    document.getElementById("cal").style.display="none";
-    document.getElementById("seecal").style.display="block";
-    document.getElementById("hideCal").style.display="none";
-  }
-  </script>
-  <script>
-    // 스크롤 위치를 모니터링하여 버튼을 표시 또는 숨깁니다.
-    window.addEventListener('scroll', function() {
-      var scrollToTopButton = document.getElementById('scrollToTopButton');
-      if (window.pageYOffset > 800) {
-        scrollToTopButton.style.display = 'block';
-      } else {
-        scrollToTopButton.style.display = 'none';
-      }
-    });
-  
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
-  </script>
-<script>  
-    function callon() {
-      if (window.confirm("☏ 상담가능시간: 평일 8:30~17:00 📞전화앱으로 연결할까요?")) {
-        document.location.href = "tel:031-219-6052"
-    } else {
-      alert("취소 되었습니다!!")
-    }
-   }                
-  </script>
-
-<script>
-      window.kakaoAsyncInit = function() {
-        Kakao.Channel.createChatButton({
-          container: '#kakao-talk-channel-chat-button',
-        });    
-      };
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, 'script', 'kakao-js-sdk');
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var button = document.getElementById('confirmLinkBtn');
-          button.addEventListener('click', function() {
-            var confirmLink = confirm("🤷‍♂️총회 상정안건 보기로 이동할까요?");
-            if (confirmLink) {
-              window.location.href = 'https://ajou9770.github.io/meet/report.html'; // 여기에 원하는 URL을 입력하세요
-            } 
-          });
-        });
-
-        document.addEventListener('contextmenu', function(e) {
-          e.preventDefault(); // 컨텍스트 메뉴를 차단합니다.
-          alert('마우스 오른쪽 버튼 사용이 차단되었습니다.');
-        });
-        
-      </script>
 </body>
 </html>
