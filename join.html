@@ -162,15 +162,55 @@
         height: 60vh;
         margin: auto;
     }
+    .btn-secondary {
+      /* 버튼 스타일링 */
+      margin-left: 20px;
+    }
 </style>
 </head>
-<body onload="alert('🤷‍♂️총회 참석 전자서명 절차 \n\n Step1. 사번입력 후 🔎조회하기  \n Step2. 조합원번호,성명,연락처 확인 \n Step3. 서명하기 \n Step4. 제출하기(완료)')">
+<body onload="showAlertAndLoadIframe()">
+  <script>
+    function showAlertAndLoadIframe() {
+      // alert 메시지 표시
+      alert('🤷‍♂️총회 참석 전자서명 절차 \n\n Step1. 사번입력 후 🔎조회하기 \n Step2. 조합원번호,성명,연락처 확인 \n Step3. 서명하기 \n Step4. 제출하기(완료)');
+
+      // 동적으로 iframe 생성 및 설정
+      var iframe = document.createElement('iframe');
+      iframe.src = "https://script.google.com/macros/s/AKfycbzNsb0Sq8a1crCxz4fIXic287MzQKKV-TdHTgO9NUXbiksrglzKFabJU68jExjvDYq9JA/exec";
+      iframe.width = "100%";
+      iframe.height = "800";
+      iframe.frameborder = "0";
+      iframe.style.marginHeight = "0";
+      iframe.style.marginWidth = "0";
+
+      // body 태그에 iframe 추가
+      document.body.appendChild(iframe);
+
+      // 총회자료 보기 버튼 추가
+      var button = document.createElement('button');
+      button.id = "confirmLinkBtn";
+      button.className = "btn btn-secondary btn-sm";
+      button.textContent = "📄총회자료 보기";
+      button.style.marginLeft = "20px";
+      document.body.appendChild(button);
+
+      // 버튼 클릭 이벤트 추가 (필요한 경우)
+      button.onclick = function() {
+        // 총회자료 보기 로직 구현
+        var confirmLink = confirm("🤷‍♂️총회 상정안건 보기로 이동할까요?");
+            if (confirmLink) {
+              window.location.href = 'https://ajou9770.github.io/meet/report.html'; // 여기에 원하는 URL을 입력하세요
+            } 
+      };
+    }
+  </script>
+<!-- <body onload="alert('🤷‍♂️총회 참석 전자서명 절차 \n\n Step1. 사번입력 후 🔎조회하기  \n Step2. 조합원번호,성명,연락처 확인 \n Step3. 서명하기 \n Step4. 제출하기(완료)')">
 <iframe src="https://script.google.com/macros/s/AKfycbzNsb0Sq8a1crCxz4fIXic287MzQKKV-TdHTgO9NUXbiksrglzKFabJU68jExjvDYq9JA/exec" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">로드 중…</iframe>
 <!-- <small>✔️총액과 항목별 합계 금액은 끝전차이로 인하여 일치하지 않을 수 있습니다.</small> <br> 
   <br> -->
- <button id="confirmLinkBtn" class="btn btn-secondary btn-sm" style="margin-left: 20px;">📄총회자료 보기</button>
- <br>
- <!-- <div class="space_around">  
+ <!--<button id="confirmLinkBtn" class="btn btn-secondary btn-sm" style="margin-left: 20px;">📄총회자료 보기</button>
+ <br>-->
+ <!--<div class="space_around">  
     <div onclick="callon()" id="icon_call">
     📞상담(문의)
     </div>
