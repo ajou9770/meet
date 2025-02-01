@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery (Bootstrap의 JavaScript 플러그인에 필요) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>📝 신협 제30차 정기총회 참석 전자서명</title>
+    <title>📝 신협 제31차 정기총회(임원선거) 참석 전자서명</title>
     <style>
         body {
             max-width: 900px;
@@ -198,32 +198,13 @@
       button.onclick = function() {
         // 총회자료 보기 로직 구현
         var confirmLink = confirm("🤷‍♂️총회 상정안건 보기로 이동할까요?");
-            if (confirmLink) {
-              window.location.href = 'https://ajou9770.github.io/meet/report.html'; // 여기에 원하는 URL을 입력하세요
-            } 
-      };
+        if (confirmLink) {
+            window.open('https://ajou9770.github.io/meet/report.html', '_blank');
+        }
+    };   
     }
   </script>
-<!-- <body onload="alert('🤷‍♂️총회 참석 전자서명 절차 \n\n Step1. 사번입력 후 🔎조회하기  \n Step2. 조합원번호,성명,연락처 확인 \n Step3. 서명하기 \n Step4. 제출하기(완료)')">
-<iframe src="https://script.google.com/macros/s/AKfycbzNsb0Sq8a1crCxz4fIXic287MzQKKV-TdHTgO9NUXbiksrglzKFabJU68jExjvDYq9JA/exec" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">로드 중…</iframe>
-<!-- <small>✔️총액과 항목별 합계 금액은 끝전차이로 인하여 일치하지 않을 수 있습니다.</small> <br> 
-  <br> -->
- <!--<button id="confirmLinkBtn" class="btn btn-secondary btn-sm" style="margin-left: 20px;">📄총회자료 보기</button>
- <br>-->
- <!--<div class="space_around">  
-    <div onclick="callon()" id="icon_call">
-    📞상담(문의)
-    </div>
-<div id="icon">
-        <div
-id="kakao-talk-channel-chat-button"
-data-channel-public-id="_dfhkK"
-data-title="consult"
-data-size="small"
-data-color="yellow"
-data-shape="mobile"
-data-support-multiple-densities="true"
-></div></div> -->
+
 <div id="loading-overlay">
   <div id="loading-spinner"></div>
   <div id="loading-message"><span style="padding-left: 17px;">📝전자서명로딩중...</span>
