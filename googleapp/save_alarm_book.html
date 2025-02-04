@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일정 저장</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            saveToCalendar();
+        });
+
+        function saveToCalendar() {
+            const title = "신협선관위모임";
+            const startDate = new Date("2025-02-04T14:20:00");
+            const endDate = new Date("2025-02-04T14:30:00");
+            const description = "신협 선거관리위원회 모임";
+            const location = "";
+            const alarmMinutesBefore = 10; // 알람 설정 (10분 전)
+
+            const alarmDate = new Date(startDate.getTime() - alarmMinutesBefore * 60000);
+
+            const icsData = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${formatICSDate(startDate)}\nDTEND:${formatICSDate(endDate)}\nSUMMARY:${title}\nDESCRIPTION:${description}\nLOCATION:${location}\nBEGIN:VALARM\nTRIGGER:-PT${alarmMinutesBefore}M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR`;
+
+            const blob = new Blob([icsData], { type: "text/calendar" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "event.ics";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function formatICSDate(date) {
+            return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+        }
+    </script>
+</head>
+<body>
+    <h2>일정이 자동으로 저장됩니다...</h2>
+</body>
+</html>
