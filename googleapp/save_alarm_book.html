@@ -15,19 +15,24 @@
             const minutes = alarmTime.getMinutes();
 
             if (/android/i.test(navigator.userAgent)) {
-                // Android - 알람 앱 실행 (window.open 사용)
-                const androidAlarmIntent = `intent://clock/set_alarm?android.intent.extra.alarm.HOUR=${hours}&android.intent.extra.alarm.MINUTES=${minutes}&android.intent.extra.alarm.MESSAGE=${encodeURIComponent("신협선관위모임")}#Intent;scheme=android-app;end;`;
+                // ✅ Android: Google Clock 앱 실행하는 URI 사용
+                const androidAlarmIntent = `android-app://com.google.android.deskclock/alarm?hour=${hours}&minute=${minutes}&message=${encodeURIComponent("신협선관위모임")}`;
                 
                 try {
                     window.open(androidAlarmIntent, "_self");
                 } catch (e) {
-                    alert("Android 기기에서 알람을 설정할 수 없습니다.");
+                    alert("Android 기기에서 알람을 설정할 수 없습니다. 수동으로 설정해 주세요.");
                 }
             } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                // iOS - 단축어 실행 전 사용자 안내
+                // ✅ iOS: Shortcuts 실행 방식 개선
                 alert("iOS에서는 'SetEventAlarm' 단축어가 필요합니다. 설정 후 다시 시도하세요.");
                 const iosShortcutURL = "shortcuts://run-shortcut?name=SetEventAlarm&input=2025-02-11T11:50:00";
-                window.location.href = iosShortcutURL;
+                
+                try {
+                    window.open(iosShortcutURL, "_self");
+                } catch (e) {
+                    alert("iOS에서 단축어를 실행할 수 없습니다. 단축어 설정을 확인하세요.");
+                }
             } else {
                 alert("현재 사용하는 기기에서 알람 설정이 지원되지 않습니다.");
             }
