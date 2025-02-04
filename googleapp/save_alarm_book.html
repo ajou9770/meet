@@ -3,40 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>일정 저장</title>
+    <title>일정 자동 추가</title>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            saveToCalendar();
+            addEventToCalendar();
         });
 
-        function saveToCalendar() {
+        function addEventToCalendar() {
             const title = "신협선관위모임";
-            const startDate = new Date("2025-02-04T14:20:00");
-            const endDate = new Date("2025-02-04T14:30:00");
+            const startDate = new Date("2025-02-04T14:25:00");
+            const endDate = new Date("2025-02-04T14:50:00");
             const description = "신협 선거관리위원회 모임";
             const location = "";
-            const alarmMinutesBefore = 10; // 알람 설정 (10분 전)
+            const alarmMinutesBefore = 10;
+            
+            function formatGoogleCalendarDate(date) {
+                return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+            }
 
-            const alarmDate = new Date(startDate.getTime() - alarmMinutesBefore * 60000);
+            const startDateStr = formatGoogleCalendarDate(startDate);
+            const endDateStr = formatGoogleCalendarDate(endDate);
 
-            const icsData = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${formatICSDate(startDate)}\nDTEND:${formatICSDate(endDate)}\nSUMMARY:${title}\nDESCRIPTION:${description}\nLOCATION:${location}\nBEGIN:VALARM\nTRIGGER:-PT${alarmMinutesBefore}M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR`;
-
-            const blob = new Blob([icsData], { type: "text/calendar" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "event.ics";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-        function formatICSDate(date) {
-            return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+            if (/android/i.test(navigator.userAgent)) {
+                // Android (Google Calendar)
+                const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&reminder=${alarmMinutesBefore}`;
+                window.location.href = googleCalendarUrl;
+            } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                // iOS (Apple Calendar)
+                const appleCalendarUrl = `webcal://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&reminder=${alarmMinutesBefore}`;
+                window.location.href = appleCalendarUrl;
+            } else {
+                alert("현재 사용하는 기기에서는 자동 일정 추가가 지원되지 않습니다.");
+            }
         }
     </script>
 </head>
 <body>
-    <h2>일정이 자동으로 저장됩니다...</h2>
+    <h2>일정이 자동으로 추가됩니다...</h2>
 </body>
 </html>
