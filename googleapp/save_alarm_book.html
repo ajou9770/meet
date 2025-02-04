@@ -3,39 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>일정 및 알람 자동 추가</title>
+    <title>알람 자동 추가</title>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            addEventToCalendar();
             setDeviceAlarm();
         });
-
-        function addEventToCalendar() {
-            const title = "신협선관위모임";
-            const startDate = new Date("2025-02-11T12:00:00");
-            const endDate = new Date("2025-02-11T13:00:00");
-            const description = "신협 선거관리위원회 모임";
-            const location = "";
-            
-            function formatGoogleCalendarDate(date) {
-                return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
-            }
-
-            const startDateStr = formatGoogleCalendarDate(startDate);
-            const endDateStr = formatGoogleCalendarDate(endDate);
-
-            if (/android/i.test(navigator.userAgent)) {
-                // Android (Google Calendar)
-                const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
-                window.location.href = googleCalendarUrl;
-            } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                // iOS (Apple Calendar)
-                const appleCalendarUrl = `webcal://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
-                window.location.href = appleCalendarUrl;
-            } else {
-                alert("현재 사용하는 기기에서는 자동 일정 추가가 지원되지 않습니다.");
-            }
-        }
 
         function setDeviceAlarm() {
             const alarmTime = new Date("2025-02-11T11:50:00"); // 10분 전 알람
@@ -57,6 +29,6 @@
     </script>
 </head>
 <body>
-    <h2>일정과 알람이 자동으로 추가됩니다...</h2>
+    <h2>알람이 자동으로 추가됩니다...</h2>
 </body>
 </html>
