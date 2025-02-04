@@ -13,23 +13,16 @@
             if (/android/i.test(navigator.userAgent)) {
                 alert("Android 알람 앱을 실행합니다. 알람을 직접 추가하세요.");
 
-                // Google Clock (기본 시계 앱) 실행
-                /* try {
+                // 1️⃣ Google Clock 앱 실행 (설치 여부 확인)
+                try {
                     window.location.href = "intent://com.google.android.deskclock#Intent;scheme=android-app;end;";
                 } catch (e) {
-                    console.log("Google Clock 실행 실패, 삼성 시계 앱 시도");
-                } */
-
-                // 삼성 시계 앱 실행 (삼성 기기 전용)
-                try {
-                    window.location.href = "intent://com.samsung.android.deskclock#Intent;scheme=android-app;end;";
-                } catch (e) {
-                    console.log("삼성 시계 실행 실패, 기본 시계 앱 시도");
+                    console.log("Google Clock 실행 실패, 기본 시계 앱 시도");
                 }
 
-                // 기본 시계 앱 실행 (SHOW_ALARMS 액션)
+                // 2️⃣ Android 공통 시계 앱 실행 (SHOW_ALARMS 인텐트)
                 try {
-                    window.location.href = "intent://com.android.deskclock#Intent;scheme=android-app;end;";
+                    window.location.href = "intent://android.intent.action.SHOW_ALARMS#Intent;scheme=android-app;end;";
                 } catch (e) {
                     alert("기본 알람 앱을 실행할 수 없습니다. 직접 시계 앱을 열어주세요.");
                 }
@@ -44,6 +37,6 @@
     </script>
 </head>
 <body>
-    <h2>기본(구글/삼성) 알람 앱이 실행됩니다...</h2>
+    <h2>수정된 기본 알람 앱이 실행됩니다...</h2>
 </body>
 </html>
