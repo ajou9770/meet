@@ -16,7 +16,6 @@
             const endDate = new Date("2025-02-11T13:00:00");
             const description = "신협 선거관리위원회 모임";
             const location = "";
-            const alarmMinutesBefore = 10;
             
             function formatGoogleCalendarDate(date) {
                 return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
@@ -26,10 +25,12 @@
             const endDateStr = formatGoogleCalendarDate(endDate);
 
             if (/android/i.test(navigator.userAgent)) {
-                const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&reminder=${alarmMinutesBefore}`;
+                // Android (Google Calendar)
+                const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
                 window.location.href = googleCalendarUrl;
             } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                const appleCalendarUrl = `webcal://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&reminder=${alarmMinutesBefore}`;
+                // iOS (Apple Calendar)
+                const appleCalendarUrl = `webcal://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
                 window.location.href = appleCalendarUrl;
             } else {
                 alert("현재 사용하는 기기에서는 자동 일정 추가가 지원되지 않습니다.");
@@ -43,7 +44,7 @@
 
             if (/android/i.test(navigator.userAgent)) {
                 // Android에서 알람 앱 실행
-                const androidAlarmIntent = `intent://com.android.deskclock/set_alarm?android.intent.extra.alarm.HOUR=${hours}&android.intent.extra.alarm.MINUTES=${minutes}&android.intent.extra.alarm.MESSAGE=신협선관위모임#Intent;scheme=android-app;end;`;
+                const androidAlarmIntent = `intent://clock/set_alarm?android.intent.extra.alarm.HOUR=${hours}&android.intent.extra.alarm.MINUTES=${minutes}&android.intent.extra.alarm.MESSAGE=${encodeURIComponent("신협선관위모임")}#Intent;scheme=android-app;end;`;
                 window.location.href = androidAlarmIntent;
             } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
                 // iOS에서는 Shortcuts 단축어 URL 사용 (사용자가 설정 필요)
