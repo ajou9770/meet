@@ -66,7 +66,7 @@
         .then(data => {
           alert(data);
           
-          // 참석 여부가 "예"인 경우 일정 추가 여부 확인
+          // 참석 여부가 "참석" 또는 "미정"인 경우 일정 추가 여부 확인
           if (attendanceValue === "참석" || attendanceValue === "미정")  {
             if (confirm("📆일정에 추가하시겠습니까?")) {
               alert('📤일정이 열리면 저장해 주세요');  
