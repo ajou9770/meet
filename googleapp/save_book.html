@@ -85,6 +85,22 @@
       };
       
       function addEventToCalendar() {
+         // 로딩 메시지 추가
+         var loadingOverlay = document.createElement('div');
+         loadingOverlay.id = 'loadingOverlay';
+         loadingOverlay.style.position = 'fixed';
+         loadingOverlay.style.top = '0';
+         loadingOverlay.style.left = '0';
+         loadingOverlay.style.width = '100%';
+         loadingOverlay.style.height = '100%';
+         loadingOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+         loadingOverlay.style.display = 'flex';
+         loadingOverlay.style.justifyContent = 'center';
+         loadingOverlay.style.alignItems = 'center';
+         loadingOverlay.style.color = 'white';
+         loadingOverlay.style.fontSize = '1.2rem';
+         loadingOverlay.textContent = '📆 일정을 여는 중입니다...';
+         document.body.appendChild(loadingOverlay);
         const title = "신협 임원상견례 모임";
         const startDate = new Date("2025-03-04T17:30:00");
         const endDate = new Date("2025-03-04T19:00:00");
