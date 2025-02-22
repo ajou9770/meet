@@ -1,46 +1,100 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
+<html>
+  <head>
+    <base target="_top">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>일정 자동 추가하기</title>
+    <title>상견레 참석 여부 회신</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body class="container mt-5">
+    <div class="card p-4 shadow-sm">
+      <h2 class="mb-4">상견레 참석 여부 회신</h2>
+      <form id="attendanceForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">이름 선택:</label>
+          <select id="name" name="name" class="form-select" required>
+            <option value="">-- 이름을 선택하세요 --</option>
+            <option value="홍길동">홍길동</option>
+            <option value="김철수">김철수</option>
+            <option value="이영희">이영희</option>
+          </select>
+        </div>
+        
+        <div class="mb-3">
+          <label for="attendance" class="form-label">참석 여부:</label>
+          <select id="attendance" name="attendance" class="form-select" required>
+            <option value="">-- 참석 여부 선택 --</option>
+            <option value="예">예</option>
+            <option value="아니오">아니오</option>
+            <option value="모름">모름</option>
+          </select>
+        </div>
+        
+        <button type="submit" id="submitBtn" class="btn btn-primary w-100">✔제출하기</button>
+      </form>
+    </div>
+    
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            addEventToCalendar();
+      document.getElementById("attendanceForm").onsubmit = function(event) {
+        event.preventDefault();
+        
+        var submitBtn = document.getElementById("submitBtn");
+        submitBtn.textContent = "🔄 제출중.. 잠시만 기다려주세요";
+        submitBtn.disabled = true;
+        
+        var formData = new FormData(document.getElementById("attendanceForm"));
+        var attendanceValue = document.getElementById("attendance").value;
+        alert('🤷‍♂️전송중입니다. 잠시 후 전송결과를 확인해 주세요');
+        fetch("https://script.google.com/macros/s/AKfycby4XHSzq0IwSB5UKPq5TrJaCt1DFGFETD-MdfCeslNUa_YNesLzYiW4xLTiB5gmcgRi/exec", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+          
+          // 참석 여부가 "예"인 경우 일정 추가 여부 확인
+          if (attendanceValue === "예") {
+            if (confirm("📆일정을 캘린더에 추가하시겠습니까?")) {
+              addEventToCalendar();
+            }
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("⚠회신을 전송하는 동안 오류가 발생했습니다.");
+        })
+        .finally(() => {
+          submitBtn.textContent = "✔제출하기";
+          submitBtn.disabled = false;
         });
-
-        function addEventToCalendar() {
-            const title = "신협 임원상견례 모임";
-            const startDate = new Date("2025-03-04T17:30:00");
-            const endDate = new Date("2025-03-04T19:00:00");
-            const description = "신협 신임임원 취임관련 임직원 상견례 (장소: 사계)";
-            const location = "";
-
-            // 날짜 포맷 변환 (YYYYMMDDTHHmmssZ)
-            function formatDate(date) {
-                return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
-            }
-
-            const startDateStr = formatDate(startDate);
-            const endDateStr = formatDate(endDate);
-
-            if (/android/i.test(navigator.userAgent)) {
-                // 안드로이드 환경 (Google Calendar)
-                const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
-                window.location.href = googleCalendarUrl;
-            } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                // iOS 환경 (Apple Calendar)
-                const appleCalendarUrl = `webcal://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
-                window.location.href = appleCalendarUrl;
-            } else {
-                alert("⚠현재 사용하는 기기에서는 자동 일정 추가가 지원되지 않습니다.");
-            }
+      };
+      
+      function addEventToCalendar() {
+        const title = "신협 임원상견례 모임";
+        const startDate = new Date("2025-03-04T17:30:00");
+        const endDate = new Date("2025-03-04T19:00:00");
+        const description = "신협 신임임원 취임관련 임직원 상견례 (장소: 사계)";
+        const location = "";
+        
+        function formatDate(date) {
+          return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
         }
+        
+        const startDateStr = formatDate(startDate);
+        const endDateStr = formatDate(endDate);
+        
+        if (/android/i.test(navigator.userAgent)) {
+          const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
+          window.location.href = googleCalendarUrl;
+        } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          const appleCalendarUrl = `webcal://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
+          window.location.href = appleCalendarUrl;
+        } else {
+          alert("⚠현재 사용하는 기기에서는 자동 일정 추가가 지원되지 않습니다.");
+        }
+      }
     </script>
-</head>
-<body style="text-align: center;">
-    <h3>📆캘린더에 일정이 자동으로 추가됩니다...<br>
-        📤저장해 주세요</h3>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
-
