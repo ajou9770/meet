@@ -45,7 +45,7 @@
           </select>
         </div>
         
-        <button type="submit" id="submitBtn" class="btn btn-primary w-100">✔제출하기</button>
+        <button type="submit" id="submitBtn" class="btn btn-primary w-100">📧회신하기</button>
       </form>
     </div>
     
@@ -54,12 +54,12 @@
         event.preventDefault();
         
         var submitBtn = document.getElementById("submitBtn");
-        submitBtn.textContent = "🔄 제출중.. 잠시만 기다려주세요";
+        submitBtn.textContent = "🔄전송중.. 잠시만 기다려주세요";
         submitBtn.disabled = true;
         
         var formData = new FormData(document.getElementById("attendanceForm"));
         var attendanceValue = document.getElementById("attendance").value;
-        alert('🤷‍♂️전송중입니다. 잠시 후 전송결과를 확인해 주세요');
+        alert('🤷‍♂️회신중입니다. 잠시 후 회신결과를 확인해 주세요');
         fetch("https://script.google.com/macros/s/AKfycby4XHSzq0IwSB5UKPq5TrJaCt1DFGFETD-MdfCeslNUa_YNesLzYiW4xLTiB5gmcgRi/exec", {
           method: "POST",
           body: formData
@@ -81,7 +81,7 @@
           alert("⚠회신을 전송하는 동안 오류가 발생했습니다.");
         })
         .finally(() => {
-          submitBtn.textContent = "✔제출하기";
+          submitBtn.textContent = "📧회신하기";
           submitBtn.disabled = false;
         });
       };
