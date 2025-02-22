@@ -8,25 +8,38 @@
   </head>
   <body class="container mt-5">
     <div class="card p-4 shadow-sm">
-      <h2 class="mb-4">상견레 참석 여부 회신</h2>
+      <h3 class="mb-4">| 임원 상견레 참석 여부 회신 |</h3>
+      <h6>📆 2025년 3월 4일(화) 17:30~<br><br>
+      ⛳ 사계 (구, 달보드레)  
+    </h6>
+    <hr>
       <form id="attendanceForm">
         <div class="mb-3">
-          <label for="name" class="form-label">이름 선택:</label>
+          <!-- <label for="name" class="form-label">✨이름 선택:</label> -->
           <select id="name" name="name" class="form-select" required>
-            <option value="">-- 이름을 선택하세요 --</option>
-            <option value="홍길동">홍길동</option>
-            <option value="김철수">김철수</option>
-            <option value="이영희">이영희</option>
+            <option value="">✔선택하세요</option>
+            <option value="임문채 (부이사장)">임문채 (부이사장)</option>
+            <option value="길민주 (이사)">길민주 (이사)</option>            
+            <option value="박정수 (이사)">박정수 (이사)</option>
+            <option value="용창화 (이사)">용창화 (이사)</option>
+            <option value="이기명 (이사)">이기명 (이사)</option>
+            <option value="이상진 (이사)">이상진 (이사)</option>
+            <option value="이지현 (이사)">이지현 (이사)</option>
+            <option value="정서진 (이사)">정서진 (이사)</option>
+            <option value="이학봉 (감사)">이학봉 (감사)</option>
+            <option value="박안태 (감사)">박안태 (감사)</option>
+            <option value="정망래 (감사)">정망래 (감사)</option>
+            
           </select>
         </div>
         
         <div class="mb-3">
-          <label for="attendance" class="form-label">참석 여부:</label>
+          <!-- <label for="attendance" class="form-label">✔참석 여부:</label> -->
           <select id="attendance" name="attendance" class="form-select" required>
-            <option value="">-- 참석 여부 선택 --</option>
-            <option value="예">예</option>
-            <option value="아니오">아니오</option>
-            <option value="모름">모름</option>
+            <option value="">✔참석 여부 선택해 주세요</option>
+            <option value="참석">참석</option>
+            <option value="불참">불참</option>
+            <option value="미정">미정</option>
           </select>
         </div>
         
@@ -54,7 +67,7 @@
           alert(data);
           
           // 참석 여부가 "예"인 경우 일정 추가 여부 확인
-          if (attendanceValue === "예") {
+          if (attendanceValue === "참석" || attendanceValue === "미정")  {
             if (confirm("📆일정을 캘린더에 추가하시겠습니까?")) {
               alert('📆일정이 열리면 저장해 주세요');  
               addEventToCalendar();
