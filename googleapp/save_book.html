@@ -33,14 +33,14 @@
                 const appleCalendarUrl = `webcal://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDateStr}/${endDateStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
                 window.location.href = appleCalendarUrl;
             } else {
-                alert("현재 사용하는 기기에서는 자동 일정 추가가 지원되지 않습니다.");
+                alert("⚠현재 사용하는 기기에서는 자동 일정 추가가 지원되지 않습니다.");
             }
         }
     </script>
 </head>
 <body>
-    <h2>일정이 자동으로 추가됩니다...<br>
-        📤저장해 주세요</h2>
+    <h3>📆일정이 자동으로 추가됩니다...<br>
+        📤저장해 주세요</h3>
 </body>
 </html>
 
