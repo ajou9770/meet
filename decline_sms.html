@@ -29,7 +29,7 @@
         smsLink = `sms:${phone}?body=${message}`;
       } else {
         // 기타 환경 (PC 등): 안내만
-        document.getElementById("status").textContent = "📱 문자 기능은 모바일에서만 작동합니다.";
+        document.getElementById("status").textContent = "⚠️ 단, 문자앱 실행을 통한 메세지 전송은 모바일(PAD)에서만 작동합니다.";
         return;
       }
 
@@ -46,6 +46,6 @@
 </head>
 <body>
   <h2>📢 정기이사회 불참 문자가 자동으로 전송됩니다.</h2>
-  <p id="status" style="margin-top: 20px; color: #555;"></p>
+ <strong><p id="status" style="margin-top: 20px; color: #555; background-color: beige;"></p></strong>
 </body>
 </html>
