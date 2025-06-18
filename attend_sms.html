@@ -14,15 +14,28 @@
   </style>
   <script>
     window.onload = () => {
-      // 자동 실행: 문자 앱 열기
       const message = encodeURIComponent("정기이사회 참석예정입니다");
-      const phone = "01063542163"; // 👈 수신자 전화번호
-      const smsLink = `sms:${phone}?body=${message}`;
+      const phone = "01063542163";
 
-      // 문자앱으로 리디렉션
+      // 디바이스 판별
+      const ua = navigator.userAgent.toLowerCase();
+      let smsLink = "";
+
+      if (/iphone|ipad|ipod/.test(ua)) {
+        smsLink = `sms:${phone}&body=${message}`; // iOS용
+      } else if (/android/.test(ua)) {
+        smsLink = `sms:${phone}?body=${message}`; // Android용
+      } else {
+        // 기타 디바이스 (예: PC)
+        document.getElementById("status").textContent =
+          "⚠문자메세지 실행을 통한 문자 전송은 모바일 기기에서만 가능합니다.";
+        return;
+      }
+
+      // 문자 앱 열기
       window.location.href = smsLink;
 
-      // 사용자 안내
+      // 사용자 안내 메시지
       setTimeout(() => {
         document.getElementById("status").textContent =
           "📨 문자 메시지 앱이 열리지 않는 경우, 수동으로 전송해주세요.";
@@ -32,6 +45,6 @@
 </head>
 <body>
   <h2>📢 정기이사회 참석 문자가 자동으로 전송됩니다.</h2>
-  <p id="status" style="margin-top: 20px; color: #555;"></p>
+  <p id="status" style="margin-top: 20px; color: #d60909;"></p>
 </body>
 </html>
