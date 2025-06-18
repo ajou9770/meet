@@ -14,15 +14,29 @@
   </style>
   <script>
     window.onload = () => {
-      // 자동 실행: 문자 앱 열기
       const message = encodeURIComponent("선약 등으로 정기이사회 불참예정입니다");
-      const phone = "01063542163"; // 👈 수신자 전화번호
-      const smsLink = `sms:${phone}?body=${message}`;
+      const phone = "01063542163"; // 수신자 전화번호
 
-      // 문자앱으로 리디렉션
+      // 디바이스 종류 확인
+      const ua = navigator.userAgent.toLowerCase();
+      let smsLink = "";
+
+      if (/iphone|ipad|ipod/.test(ua)) {
+        // iOS는 '&body='로 연결해야 작동하는 경우가 많음
+        smsLink = `sms:${phone}&body=${message}`;
+      } else if (/android/.test(ua)) {
+        // Android는 '?body='가 안정적으로 작동
+        smsLink = `sms:${phone}?body=${message}`;
+      } else {
+        // 기타 환경 (PC 등): 안내만
+        document.getElementById("status").textContent = "📱 문자 기능은 모바일에서만 작동합니다.";
+        return;
+      }
+
+      // 문자앱 실행
       window.location.href = smsLink;
 
-      // 사용자 안내
+      // 안내 메시지
       setTimeout(() => {
         document.getElementById("status").textContent =
           "📨 문자 메시지 앱이 열리지 않는 경우, 수동으로 전송해주세요.";
