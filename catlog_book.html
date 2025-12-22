@@ -172,27 +172,32 @@
     }
 
     /* Animations */
-    .anim-next-out{ animation: nextOut 520ms cubic-bezier(.2,.9,.2,1) forwards; }
-    .anim-next-in { animation: nextIn  520ms cubic-bezier(.2,.9,.2,1) forwards; }
-    .anim-prev-out{ animation: prevOut 520ms cubic-bezier(.2,.9,.2,1) forwards; }
-    .anim-prev-in { animation: prevIn  520ms cubic-bezier(.2,.9,.2,1) forwards; }
+/* ✅ 더 천천히, 책장 넘김 체감 강화 */
+.anim-next-out{ animation: nextOut 900ms cubic-bezier(.18,.85,.18,1) forwards; }
+.anim-next-in { animation: nextIn  900ms cubic-bezier(.18,.85,.18,1) forwards; }
+.anim-prev-out{ animation: prevOut 900ms cubic-bezier(.18,.85,.18,1) forwards; }
+.anim-prev-in { animation: prevIn  900ms cubic-bezier(.18,.85,.18,1) forwards; }
 
     @keyframes nextOut{
-      from{ transform: rotateY(0deg); opacity:1; }
-      to  { transform: rotateY(-18deg) translateX(-6px); opacity:.0; }
-    }
-    @keyframes nextIn{
-      from{ transform: translateX(18px); opacity:0; }
-      to  { transform: translateX(0); opacity:1; }
-    }
-    @keyframes prevOut{
-      from{ transform: rotateY(0deg); opacity:1; }
-      to  { transform: rotateY(18deg) translateX(6px); opacity:.0; }
-    }
-    @keyframes prevIn{
-      from{ transform: translateX(-18px); opacity:0; }
-      to  { transform: translateX(0); opacity:1; }
-    }
+  0%   { transform: rotateY(0deg) translateX(0) scale(1); opacity:1; }
+  60%  { transform: rotateY(-22deg) translateX(-10px) scale(.992); opacity:.65; }
+  100% { transform: rotateY(-28deg) translateX(-16px) scale(.985); opacity:0; }
+}
+@keyframes nextIn{
+  0%   { transform: translateX(26px) scale(.985); opacity:0; }
+  60%  { transform: translateX(8px)  scale(.995); opacity:.65; }
+  100% { transform: translateX(0)    scale(1);    opacity:1; }
+}
+@keyframes prevOut{
+  0%   { transform: rotateY(0deg) translateX(0) scale(1); opacity:1; }
+  60%  { transform: rotateY(22deg) translateX(10px) scale(.992); opacity:.65; }
+  100% { transform: rotateY(28deg) translateX(16px) scale(.985); opacity:0; }
+}
+@keyframes prevIn{
+  0%   { transform: translateX(-26px) scale(.985); opacity:0; }
+  60%  { transform: translateX(-8px)  scale(.995); opacity:.65; }
+  100% { transform: translateX(0)      scale(1);    opacity:1; }
+}
 
     /* Bottom nav */
     .bottom-nav{
@@ -470,7 +475,7 @@
         idx = nextIdx;
         setIndicators();
         busy = false;
-      }, 540);
+      }, 920);
     }
 
     // Buttons
