@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>전자 리플릿(책자형) 샘플</title>
+  <title>전자 리플릿(한면 보기) 샘플</title>
 
   <style>
     :root{
@@ -16,8 +16,7 @@
       --radius: 18px;
       --accent:#4f46e5;
     }
-
-    *{ box-sizing: border-box; }
+    *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
@@ -26,180 +25,115 @@
         radial-gradient(900px 450px at 100% 0%, rgba(34,197,94,.22), transparent 55%),
         linear-gradient(180deg, #050816 0%, var(--bg) 40%, #050816 100%);
       color:#e5e7eb;
-      min-height: 100vh;
+      min-height:100vh;
       padding-bottom: calc(84px + env(safe-area-inset-bottom));
     }
 
     /* Top bar */
     .topbar{
-      position: sticky;
-      top:0;
-      z-index: 20;
+      position: sticky; top:0; z-index: 20;
       backdrop-filter: blur(12px);
       background: rgba(5,8,22,.55);
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
     .topbar .wrap{
-      max-width: 980px;
-      margin: 0 auto;
+      max-width: 980px; margin: 0 auto;
       padding: 12px 14px;
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width: 0;
-    }
+    .brand{ display:flex; align-items:center; gap:10px; min-width:0; }
     .logo{
-      width: 34px; height:34px;
-      border-radius: 12px;
+      width:34px; height:34px; border-radius:12px;
       background: linear-gradient(135deg, rgba(79,70,229,.9), rgba(34,197,94,.75));
       box-shadow: 0 0 0 6px rgba(79,70,229,.18);
       flex: 0 0 auto;
     }
-    .brand .title{
-      font-weight: 800;
-      letter-spacing: -.02em;
-      font-size: 15px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .brand .sub{
-      color: rgba(229,231,235,.72);
-      font-size: 12px;
-      margin-top: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .actions{
-      display:flex;
-      gap:8px;
-      flex: 0 0 auto;
-    }
+    .brand .title{ font-weight: 900; letter-spacing:-.02em; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .brand .sub{ color: rgba(229,231,235,.72); font-size:12px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    .actions{ display:flex; gap:8px; flex: 0 0 auto; }
     .btn{
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
       color:#fff;
       border-radius: 999px;
       padding: 9px 12px;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 13px;
       cursor: pointer;
       transition: .15s ease;
     }
     .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
-    .btn.primary{
-      background: rgba(79,70,229,.95);
-      border-color: rgba(79,70,229,.25);
-    }
+    .btn.primary{ background: rgba(79,70,229,.95); border-color: rgba(79,70,229,.25); }
 
-    /* Stage */
-    .stage{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 16px 14px 8px;
-    }
+    .stage{ max-width: 980px; margin: 0 auto; padding: 16px 14px 8px; }
     .hint{
-      display:flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
       margin: 6px 2px 12px;
-      color: rgba(229,231,235,.72);
-      font-size: 12px;
+      color: rgba(229,231,235,.72); font-size:12px;
     }
     .hint b{ color:#fff; }
 
-    /* Book container */
-    .book-area{
-      display:flex;
-      justify-content: center;
-      align-items: center;
+    /* ✅ Single-page viewport: always one page */
+    .viewer{
+      display:flex; justify-content:center; align-items:center;
       padding: 10px 0 16px;
     }
-    .book-shell{
-      width: min(92vw, 420px);
-      aspect-ratio: 3 / 4;
+    .page-shell{
+      width: min(92vw, 440px);         /* 모바일에 안전 */
+      height: min(70vh, 640px);        /* ✅ 세로 기준으로도 안정 */
       position: relative;
-      perspective: 1800px;
-      user-select: none;
-      -webkit-user-select: none;
+      perspective: 1200px;
+      user-select:none; -webkit-user-select:none;
       touch-action: pan-y;
     }
-    .book{
-      width: 100%;
-      height: 100%;
-      position: relative;
-      filter: drop-shadow(var(--shadow));
-    }
 
-    /* Leaves (each leaf = front+back = 2 pages) */
-    .leaf{
-      position:absolute;
-      inset:0;
-      transform-style: preserve-3d;
-      transform-origin: left center;
-      transition: transform 850ms cubic-bezier(.2,.9,.2,1);
-      border-radius: var(--radius);
-    }
-    .leaf.flipped{ transform: rotateY(-180deg); }
-
+    /* two layers for animation (current + next) */
     .page{
-      position:absolute;
-      inset:0;
+      position:absolute; inset:0;
       background: var(--card);
       color: var(--ink);
       border-radius: var(--radius);
       overflow:hidden;
-      backface-visibility:hidden;
       border: 1px solid rgba(15,23,42,.06);
-    }
-    .page.back{
-      transform: rotateY(180deg);
+      box-shadow: var(--shadow);
+      transform-origin: left center;
+      backface-visibility: hidden;
+      display:flex;
     }
 
-    /* Page layout */
+    /* content layout */
     .p-wrap{
       height:100%;
+      width:100%;
       display:flex;
-      flex-direction: column;
+      flex-direction:column;
       padding: 18px 16px;
     }
     .p-top{
-      display:flex;
-      justify-content: space-between;
-      align-items:flex-start;
-      gap:12px;
+      display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
     }
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
+      display:inline-flex; align-items:center; gap:8px;
       padding: 7px 10px;
       border-radius: 999px;
       background: rgba(79,70,229,.08);
       border: 1px solid rgba(79,70,229,.18);
       color:#3730a3;
-      font-weight: 900;
+      font-weight: 950;
       font-size: 12px;
       white-space: nowrap;
     }
     .p-num{
       color: var(--muted);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 12px;
       white-space: nowrap;
     }
-    h1,h2,h3{ margin: 0; letter-spacing: -.03em; }
+    h1,h2{ margin:0; letter-spacing:-.03em; }
     h1{ font-size: 22px; }
     h2{ font-size: 18px; }
-    p{ margin: 0; line-height: 1.55; color:#1f2937; }
+    p{ margin:0; line-height:1.55; color:#1f2937; }
     .muted{ color: var(--muted); }
 
     .hero{
@@ -221,49 +155,58 @@
       border-radius: 16px;
       border: 1px solid var(--line);
       padding: 12px;
-      background: #fff;
+      background:#fff;
     }
-    .card .k{ font-size: 12px; color: var(--muted); font-weight: 800; }
+    .card .k{ font-size: 12px; color: var(--muted); font-weight: 900; }
     .card .v{ margin-top: 4px; font-weight: 950; font-size: 16px; }
     ul{ margin: 10px 0 0 18px; color:#111827; line-height:1.6; padding:0; }
     .spacer{ flex:1; }
-
     .footer{
-      display:flex;
-      justify-content: space-between;
-      align-items:center;
-      gap:10px;
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
       padding-top: 10px;
       border-top: 1px dashed var(--line);
       margin-top: 14px;
       color: var(--muted);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
+    }
+
+    /* Animations */
+    .anim-next-out{ animation: nextOut 520ms cubic-bezier(.2,.9,.2,1) forwards; }
+    .anim-next-in { animation: nextIn  520ms cubic-bezier(.2,.9,.2,1) forwards; }
+    .anim-prev-out{ animation: prevOut 520ms cubic-bezier(.2,.9,.2,1) forwards; }
+    .anim-prev-in { animation: prevIn  520ms cubic-bezier(.2,.9,.2,1) forwards; }
+
+    @keyframes nextOut{
+      from{ transform: rotateY(0deg); opacity:1; }
+      to  { transform: rotateY(-18deg) translateX(-6px); opacity:.0; }
+    }
+    @keyframes nextIn{
+      from{ transform: translateX(18px); opacity:0; }
+      to  { transform: translateX(0); opacity:1; }
+    }
+    @keyframes prevOut{
+      from{ transform: rotateY(0deg); opacity:1; }
+      to  { transform: rotateY(18deg) translateX(6px); opacity:.0; }
+    }
+    @keyframes prevIn{
+      from{ transform: translateX(-18px); opacity:0; }
+      to  { transform: translateX(0); opacity:1; }
     }
 
     /* Bottom nav */
     .bottom-nav{
-      position: fixed;
-      left:0; right:0; bottom:0;
-      z-index: 30;
+      position: fixed; left:0; right:0; bottom:0; z-index: 30;
       padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
       backdrop-filter: blur(12px);
       background: rgba(5,8,22,.62);
       border-top: 1px solid rgba(255,255,255,.08);
     }
     .bottom-nav .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      justify-content: space-between;
+      max-width: 980px; margin: 0 auto;
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
     }
-    .nav-left, .nav-right{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-    }
+    .nav-left,.nav-right{ display:flex; gap:10px; align-items:center; }
     .navbtn{
       width: 48px; height: 44px;
       border-radius: 14px;
@@ -272,7 +215,7 @@
       color:#fff;
       font-size: 16px;
       cursor:pointer;
-      transition: .15s ease;
+      transition:.15s ease;
     }
     .navbtn:disabled{ opacity:.35; cursor:not-allowed; }
     .navbtn:hover:not(:disabled){ transform: translateY(-1px); background: rgba(255,255,255,.10); }
@@ -287,35 +230,22 @@
     .pager .t{
       font-size: 12px;
       color: rgba(229,231,235,.8);
-      font-weight: 800;
+      font-weight: 900;
     }
     .bar{
-      width: 160px;
-      max-width: 46vw;
-      height: 6px;
-      border-radius: 999px;
+      width: 160px; max-width: 46vw;
+      height: 6px; border-radius:999px;
       background: rgba(255,255,255,.10);
       overflow:hidden;
       border: 1px solid rgba(255,255,255,.10);
     }
     .bar > i{
-      display:block;
-      height:100%;
-      width:0%;
+      display:block; height:100%; width:0%;
       background: rgba(79,70,229,.95);
     }
-
-    /* Tap hint */
     .tap-hint{
-      margin-top: 8px;
-      text-align:center;
-      font-size: 12px;
-      color: rgba(229,231,235,.70);
-    }
-
-    @media (max-width: 360px){
-      h1{ font-size: 20px; }
-      .bar{ width: 140px; }
+      margin-top: 8px; text-align:center;
+      font-size: 12px; color: rgba(229,231,235,.70);
     }
   </style>
 </head>
@@ -326,8 +256,8 @@
       <div class="brand">
         <div class="logo" aria-hidden="true"></div>
         <div style="min-width:0">
-          <div class="title">전자 리플릿 · 책자형(샘플)</div>
-          <div class="sub">좌우 스와이프 / 버튼으로 페이지 넘김</div>
+          <div class="title">전자 리플릿 · 한면 보기(샘플)</div>
+          <div class="sub">디바이스마다 잘림 없이 1페이지씩 표시</div>
         </div>
       </div>
       <div class="actions">
@@ -339,286 +269,18 @@
 
   <div class="stage">
     <div class="hint">
-      <div>📌 <b>책자형</b>으로 “넘기면서 보는” 전자 리플릿 샘플</div>
+      <div>📌 <b>한 면씩</b> 넘기며 보는 전자 리플릿 (잘림 방지)</div>
       <div>※ 내용은 예시</div>
     </div>
 
-    <div class="book-area">
-      <div class="book-shell" id="bookShell" aria-label="Flipbook">
-        <div class="book" id="book">
-          <!-- Leaf 1: Cover / Inside cover -->
-          <div class="leaf" data-leaf="0">
-            <section class="page front">
-              <div class="p-wrap">
-                <div class="p-top">
-                  <span class="pill">표지 · 2026</span>
-                  <div class="p-num">Page 1</div>
-                </div>
-                <div class="hero">
-                  <h1>아주대의료원신협<br/>상품/안내 리플릿</h1>
-                  <p class="muted" style="margin-top:8px;">
-                    모바일에서 책자처럼 넘기며 보는 전자 리플릿(샘플)
-                  </p>
-                </div>
-
-                <div class="grid">
-                  <div class="card">
-                    <div class="k">핵심 혜택</div>
-                    <div class="v">한눈에 요약</div>
-                  </div>
-                  <div class="card">
-                    <div class="k">가입 절차</div>
-                    <div class="v">3단계 안내</div>
-                  </div>
-                  <div class="card">
-                    <div class="k">문의</div>
-                    <div class="v">전화/채널</div>
-                  </div>
-                  <div class="card">
-                    <div class="k">QR</div>
-                    <div class="v">바로가기</div>
-                  </div>
-                </div>
-
-                <div class="spacer"></div>
-                <div class="footer">
-                  <span>Swipe ◀ ▶ or 버튼</span>
-                  <span>© CU e-Leaflet</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="page back">
-              <div class="p-wrap">
-                <div class="p-top">
-                  <span class="pill">목차</span>
-                  <div class="p-num">Page 2</div>
-                </div>
-
-                <h2 style="margin-top:10px;">이 리플릿에 담긴 내용</h2>
-                <ul>
-                  <li>상품 핵심 포인트 요약</li>
-                  <li>가입/신청 절차</li>
-                  <li>유의사항(중요)</li>
-                  <li>문의/바로가기(버튼/QR)</li>
-                </ul>
-
-                <div class="hero" style="margin-top:14px;">
-                  <p class="muted">
-                    운영 팁: “요약은 리플릿(웹)”로, 상세 약관/설명서는 “PDF”로 연결하면
-                    모바일에서 훨씬 보기 좋아요.
-                  </p>
-                </div>
-
-                <div class="spacer"></div>
-                <div class="footer">
-                  <span>다음 페이지에서 본문 시작</span>
-                  <span>02</span>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <!-- Leaf 2: Page 3 / Page 4 -->
-          <div class="leaf" data-leaf="1">
-            <section class="page front">
-              <div class="p-wrap">
-                <div class="p-top">
-                  <span class="pill">핵심 요약</span>
-                  <div class="p-num">Page 3</div>
-                </div>
-
-                <h2 style="margin-top:10px;">핵심 포인트 3가지</h2>
-                <div class="hero">
-                  <ul style="margin-top:0">
-                    <li><b>금리/혜택</b>은 한 문장으로 정리</li>
-                    <li><b>대상/조건</b>을 카드로 보여주기</li>
-                    <li><b>신청 버튼</b>은 하단 고정(CTA)</li>
-                  </ul>
-                </div>
-
-                <div class="grid">
-                  <div class="card">
-                    <div class="k">대상(예시)</div>
-                    <div class="v">조합원</div>
-                  </div>
-                  <div class="card">
-                    <div class="k">기간(예시)</div>
-                    <div class="v">~ 2026.02</div>
-                  </div>
-                </div>
-
-                <div class="spacer"></div>
-                <div class="footer">
-                  <span>핵심은 짧고 굵게</span>
-                  <span>03</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="page back">
-              <div class="p-wrap">
-                <div class="p-top">
-                  <span class="pill">가입 절차</span>
-                  <div class="p-num">Page 4</div>
-                </div>
-
-                <h2 style="margin-top:10px;">가입/신청은 이렇게</h2>
-                <div class="hero">
-                  <p><b>1)</b> 가입하기 버튼 클릭</p>
-                  <p style="margin-top:6px;"><b>2)</b> 본인확인(휴대폰)</p>
-                  <p style="margin-top:6px;"><b>3)</b> 상품 선택 후 진행</p>
-                </div>
-
-                <div class="grid">
-                  <div class="card">
-                    <div class="k">필요 서류(예시)</div>
-                    <div class="v">없음/간편</div>
-                  </div>
-                  <div class="card">
-                    <div class="k">소요 시간(예시)</div>
-                    <div class="v">3분 내</div>
-                  </div>
-                </div>
-
-                <div class="spacer"></div>
-                <div class="footer">
-                  <span>복잡하면 이탈합니다</span>
-                  <span>04</span>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <!-- Leaf 3: Page 5 / Page 6 -->
-          <div class="leaf" data-leaf="2">
-            <section class="page front">
-              <div class="p-wrap">
-                <div class="p-top">
-                  <span class="pill">유의사항</span>
-                  <div class="p-num">Page 5</div>
-                </div>
-
-                <h2 style="margin-top:10px;">꼭 읽어주세요</h2>
-                <div class="hero">
-                  <ul style="margin-top:0">
-                    <li>중도해지/만기 조건</li>
-                    <li>금리/혜택 적용 기준</li>
-                    <li>가입 제한/한도</li>
-                  </ul>
-                </div>
-
-                <div class="card" style="margin-top:12px;">
-                  <div class="k">TIP</div>
-                  <div class="v" style="font-size:14px; font-weight:900;">
-                    핵심 유의사항은 “3줄 요약” + “상세 PDF 링크”가 베스트
-                  </div>
-                </div>
-
-                <div class="spacer"></div>
-                <div class="footer">
-                  <span>신뢰는 디테일</span>
-                  <span>05</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="page back">
-              <div class="p-wrap">
-                <div class="p-top">
-                  <span class="pill">문의/바로가기</span>
-                  <div class="p-num">Page 6</div>
-                </div>
-
-                <h2 style="margin-top:10px;">바로 실행 버튼</h2>
-                <div class="hero">
-                  <p class="muted">여기 버튼은 실제 운영 링크로 교체하세요.</p>
-                  <div style="display:grid; gap:10px; margin-top:10px;">
-                    <button class="btn primary" style="border-radius:16px; padding:12px 14px;"
-                      onclick="alert('여기에 가입/신청 링크 연결')">가입/신청 바로가기</button>
-                    <button class="btn" style="border-radius:16px; padding:12px 14px;"
-                      onclick="location.href='tel:01000000000'">전화 문의</button>
-                  </div>
-                </div>
-
-                <div class="card" style="margin-top:12px;">
-                  <div class="k">QR 영역(예시)</div>
-                  <div class="v" style="font-size:14px;">
-                    QR 이미지를 넣거나, 서버에서 자동 생성도 가능
-                  </div>
-                </div>
-
-                <div class="spacer"></div>
-                <div class="footer">
-                  <span>버튼은 하단 고정 CTA로도 가능</span>
-                  <span>06</span>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <!-- Leaf 4: Page 7 / Back cover -->
-          <div class="leaf" data-leaf="3">
-            <section class="page front">
-              <div class="p-wrap">
-                <div class="p-top">
-                  <span class="pill">마무리</span>
-                  <div class="p-num">Page 7</div>
-                </div>
-
-                <h2 style="margin-top:10px;">요약 한 줄</h2>
-                <div class="hero">
-                  <p style="font-weight:900; font-size:16px;">
-                    “모바일은 짧게, 클릭하면 상세로”가 가장 잘 먹힙니다.
-                  </p>
-                  <p class="muted" style="margin-top:8px;">
-                    필요하면 “책자 PDF”도 함께 제공하세요.
-                  </p>
-                </div>
-
-                <div class="card" style="margin-top:12px;">
-                  <div class="k">다음 단계</div>
-                  <div class="v" style="font-size:14px;">
-                    실제 총회/상품/혜택 데이터로 교체 → QR/버튼 링크 연결 → 배포(알림톡/문자)
-                  </div>
-                </div>
-
-                <div class="spacer"></div>
-                <div class="footer">
-                  <span>끝!</span>
-                  <span>07</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="page back">
-              <div class="p-wrap">
-                <div class="p-top">
-                  <span class="pill">뒷표지</span>
-                  <div class="p-num">Page 8</div>
-                </div>
-
-                <div class="hero">
-                  <h1>감사합니다</h1>
-                  <p class="muted" style="margin-top:8px;">
-                    문의: 010-0000-0000 · 카카오채널 · 홈페이지
-                  </p>
-                </div>
-
-                <div class="spacer"></div>
-                <div class="footer">
-                  <span>© 아주대의료원신협</span>
-                  <span>08</span>
-                </div>
-              </div>
-            </section>
-          </div>
-
-        </div>
-
-        <div class="tap-hint">📱 화면을 <b>좌우로 스와이프</b>하거나 아래 버튼으로 넘겨보세요.</div>
+    <div class="viewer">
+      <div class="page-shell" id="shell" aria-label="Single Page Viewer">
+        <div class="page" id="pageA"></div>
+        <div class="page" id="pageB" style="display:none;"></div>
       </div>
     </div>
+
+    <div class="tap-hint">📱 화면을 <b>좌우 스와이프</b>하거나 아래 버튼으로 넘겨보세요.</div>
   </div>
 
   <div class="bottom-nav">
@@ -641,87 +303,185 @@
   </div>
 
   <script>
-    // ===== Flipbook logic =====
-    const leaves = Array.from(document.querySelectorAll(".leaf"));
-    const totalLeaves = leaves.length;
-    const totalPages = totalLeaves * 2;
+    // ===== Pages (한면씩) =====
+    const pages = [
+      {
+        pill: "표지 · 2026", h: "아주대의료원신협<br/>전자 리플릿",
+        desc: "모바일에서 1페이지씩 넘기며 보는 책자형(샘플)",
+        blocks: [
+          ["핵심 혜택", "한눈에 요약"],
+          ["가입 절차", "3단계 안내"],
+          ["문의", "전화/채널"],
+          ["QR", "바로가기"]
+        ],
+        footL: "Swipe ◀ ▶ or 버튼", footR: "01"
+      },
+      {
+        pill: "목차", h: "이 리플릿에 담긴 내용",
+        desc: "요약은 리플릿(웹), 상세 약관/설명서는 PDF로 연결하면 모바일에서 가장 편합니다.",
+        list: ["상품 핵심 포인트 요약", "가입/신청 절차", "유의사항(중요)", "문의/바로가기(버튼/QR)"],
+        footL: "다음 페이지에서 본문 시작", footR: "02"
+      },
+      {
+        pill: "핵심 요약", h: "핵심 포인트 3가지",
+        list: ["금리/혜택은 한 문장으로", "대상/조건은 카드로", "신청 버튼은 하단 고정(CTA)"],
+        blocks: [["대상(예시)", "조합원"], ["기간(예시)", "~ 2026.02"]],
+        footL: "핵심은 짧고 굵게", footR: "03"
+      },
+      {
+        pill: "가입 절차", h: "가입/신청은 이렇게",
+        steps: ["가입하기 버튼 클릭", "휴대폰 본인확인", "상품 선택 후 진행"],
+        blocks: [["필요 서류(예시)", "없음/간편"], ["소요 시간(예시)", "3분 내"]],
+        footL: "복잡하면 이탈합니다", footR: "04"
+      },
+      {
+        pill: "유의사항", h: "꼭 읽어주세요",
+        list: ["중도해지/만기 조건", "금리/혜택 적용 기준", "가입 제한/한도"],
+        tip: "핵심 유의사항은 “3줄 요약” + “상세 PDF 링크” 조합이 베스트",
+        footL: "신뢰는 디테일", footR: "05"
+      },
+      {
+        pill: "문의/바로가기", h: "바로 실행 버튼",
+        desc: "아래 버튼은 실제 운영 링크로 교체하세요.",
+        ctas: true,
+        footL: "버튼은 하단 고정 CTA로도 가능", footR: "06"
+      },
+      {
+        pill: "마무리", h: "요약 한 줄",
+        descStrong: "“모바일은 짧게, 클릭하면 상세로”가 가장 잘 먹힙니다.",
+        desc: "필요하면 책자 PDF도 함께 제공하세요.",
+        footL: "끝!", footR: "07"
+      },
+      {
+        pill: "뒷표지", h: "감사합니다",
+        desc: "문의: 010-0000-0000 · 카카오채널 · 홈페이지",
+        footL: "© 아주대의료원신협", footR: "08"
+      },
+    ];
 
-    let currentLeaf = 0; // 0 = cover leaf (not flipped)
-    // current page number = currentLeaf*2 + 1 (front of current leaf)
-    // When a leaf is flipped, we are effectively on the next leaf.
+    let idx = 0;
+    let busy = false;
 
-    // z-index stacking (first leaf on top initially)
-    function applyZIndex() {
-      leaves.forEach((leaf, i) => {
-        // Higher z-index for earlier leaves until flipped
-        // We'll recompute dynamically in update()
-        leaf.style.zIndex = String(totalLeaves - i);
-      });
+    const pageA = document.getElementById('pageA');
+    const pageB = document.getElementById('pageB');
+
+    function pageHTML(p, pageNo, total){
+      const blocks = (p.blocks || []).map(b => `
+        <div class="card">
+          <div class="k">${b[0]}</div>
+          <div class="v">${b[1]}</div>
+        </div>
+      `).join('');
+
+      const list = (p.list || []).map(x => `<li>${x}</li>`).join('');
+      const steps = (p.steps || []).map((x,i) => `<p style="margin-top:${i?6:0}px;"><b>${i+1})</b> ${x}</p>`).join('');
+
+      const tip = p.tip ? `
+        <div class="card" style="margin-top:12px;">
+          <div class="k">TIP</div>
+          <div class="v" style="font-size:14px;">${p.tip}</div>
+        </div>` : '';
+
+      const heroInner = `
+        ${p.descStrong ? `<p style="font-weight:950; font-size:16px;">${p.descStrong}</p>` : ''}
+        ${p.desc ? `<p class="muted" style="margin-top:${p.descStrong?8:0}px;">${p.desc}</p>` : ''}
+        ${p.steps ? `<div style="margin-top:10px;">${steps}</div>` : ''}
+        ${p.list ? `<ul style="margin-top:${p.desc||p.descStrong?10:0}px;">${list}</ul>` : ''}
+        ${p.ctas ? `
+          <div style="display:grid; gap:10px; margin-top:10px;">
+            <button class="btn primary" style="border-radius:16px; padding:12px 14px;"
+              onclick="alert('여기에 가입/신청 링크 연결')">가입/신청 바로가기</button>
+            <button class="btn" style="border-radius:16px; padding:12px 14px;"
+              onclick="location.href='tel:01000000000'">전화 문의</button>
+          </div>` : ''}
+      `;
+
+      return `
+        <div class="p-wrap">
+          <div class="p-top">
+            <span class="pill">${p.pill || ''}</span>
+            <div class="p-num">Page ${pageNo} / ${total}</div>
+          </div>
+
+          <div class="hero">
+            <h1>${p.h || ''}</h1>
+            ${heroInner}
+          </div>
+
+          ${blocks ? `<div class="grid">${blocks}</div>` : ''}
+
+          ${tip}
+
+          <div class="spacer"></div>
+          <div class="footer">
+            <span>${p.footL || ''}</span>
+            <span>${p.footR || ''}</span>
+          </div>
+        </div>
+      `;
     }
 
-    function getCurrentPage() {
-      // If leaf i is flipped, we are beyond it.
-      // currentLeaf indicates how many leaves have been flipped.
-      // When currentLeaf=k, we are viewing leaf k's front side => page = k*2+1
-      return (currentLeaf * 2) + 1;
-    }
-
-    function updateUI() {
-      // flip leaves < currentLeaf
-      leaves.forEach((leaf, i) => {
-        if (i < currentLeaf) leaf.classList.add("flipped");
-        else leaf.classList.remove("flipped");
-      });
-
-      // z-index: make the active/top leaf highest
-      leaves.forEach((leaf, i) => {
-        // Leaves already flipped should go behind
-        // Active and upcoming leaves should stay on top in order
-        if (i < currentLeaf) leaf.style.zIndex = String(i + 1); // behind
-        else leaf.style.zIndex = String(totalLeaves - i + 10);  // on top
-      });
-
-      const page = getCurrentPage();
-      document.getElementById("pageText").textContent = `Page ${page} / ${totalPages}`;
-      const pct = ((page - 1) / (totalPages - 1)) * 100;
+    function setIndicators(){
+      const total = pages.length;
+      const pageNo = idx + 1;
+      document.getElementById("pageText").textContent = `Page ${pageNo} / ${total}`;
+      const pct = ((pageNo - 1) / (total - 1)) * 100;
       document.getElementById("progress").style.width = `${pct}%`;
 
-      document.getElementById("prevBtn").disabled = (currentLeaf === 0);
-      document.getElementById("nextBtn").disabled = (currentLeaf === totalLeaves);
+      document.getElementById("prevBtn").disabled = (idx === 0);
+      document.getElementById("nextBtn").disabled = (idx === total - 1);
     }
 
-    function next() {
-      if (currentLeaf >= totalLeaves) return;
-      currentLeaf += 1;
-      updateUI();
-    }
-    function prev() {
-      if (currentLeaf <= 0) return;
-      currentLeaf -= 1;
-      updateUI();
-    }
-    function first() {
-      currentLeaf = 0;
-      updateUI();
-    }
-    function last() {
-      currentLeaf = totalLeaves;
-      updateUI();
+    function renderInitial(){
+      pageA.innerHTML = pageHTML(pages[idx], idx+1, pages.length);
+      setIndicators();
     }
 
-    applyZIndex();
-    updateUI();
+    function go(nextIdx){
+      if (busy) return;
+      if (nextIdx < 0 || nextIdx >= pages.length) return;
+      if (nextIdx === idx) return;
 
-    document.getElementById("nextBtn").addEventListener("click", next);
-    document.getElementById("prevBtn").addEventListener("click", prev);
-    document.getElementById("btnFirst").addEventListener("click", first);
-    document.getElementById("btnLast").addEventListener("click", last);
+      busy = true;
 
-    // Touch swipe (left/right)
-    const shell = document.getElementById("bookShell");
-    let x0 = null;
-    let y0 = null;
+      const dir = nextIdx > idx ? 'next' : 'prev';
+      const from = pageA.style.display === 'none' ? pageB : pageA;
+      const to   = from === pageA ? pageB : pageA;
 
+      to.style.display = 'flex';
+      to.innerHTML = pageHTML(pages[nextIdx], nextIdx+1, pages.length);
+
+      // animate
+      from.classList.remove('anim-next-out','anim-prev-out','anim-next-in','anim-prev-in');
+      to.classList.remove('anim-next-out','anim-prev-out','anim-next-in','anim-prev-in');
+
+      if (dir === 'next'){
+        from.classList.add('anim-next-out');
+        to.classList.add('anim-next-in');
+      } else {
+        from.classList.add('anim-prev-out');
+        to.classList.add('anim-prev-in');
+      }
+
+      setTimeout(() => {
+        from.style.display = 'none';
+        from.classList.remove('anim-next-out','anim-prev-out');
+        to.classList.remove('anim-next-in','anim-prev-in');
+        idx = nextIdx;
+        setIndicators();
+        busy = false;
+      }, 540);
+    }
+
+    // Buttons
+    document.getElementById("nextBtn").addEventListener("click", () => go(idx+1));
+    document.getElementById("prevBtn").addEventListener("click", () => go(idx-1));
+    document.getElementById("btnFirst").addEventListener("click", () => go(0));
+    document.getElementById("btnLast").addEventListener("click", () => go(pages.length-1));
+
+    // Swipe
+    const shell = document.getElementById("shell");
+    let x0=null, y0=null;
     shell.addEventListener("touchstart", (e) => {
       const t = e.touches[0];
       x0 = t.clientX; y0 = t.clientY;
@@ -732,19 +492,16 @@
       const t = e.changedTouches[0];
       const dx = t.clientX - x0;
       const dy = t.clientY - y0;
-      x0 = null; y0 = null;
-
-      // Ignore vertical scroll gestures
+      x0=null; y0=null;
       if (Math.abs(dy) > Math.abs(dx)) return;
-
-      if (dx < -35) next();
-      else if (dx > 35) prev();
+      if (dx < -35) go(idx+1);
+      else if (dx > 35) go(idx-1);
     }, {passive:true});
 
-    // Keyboard (desktop)
+    // Keyboard
     window.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") go(idx+1);
+      if (e.key === "ArrowLeft") go(idx-1);
     });
 
     // Fullscreen
@@ -762,6 +519,8 @@
         alert("이 브라우저에서는 전체화면이 제한될 수 있어요.");
       }
     });
+
+    renderInitial();
   </script>
 </body>
 </html>
